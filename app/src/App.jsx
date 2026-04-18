@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import EligibilityPage from "./pages/EligibilityPage";
-import Results from "./components/Results";
+import Results from "./pages/Results";
 
 function AgentPage() {
   return <div style={{ padding: "40px" }}>AI Agent page coming soon.</div>;
