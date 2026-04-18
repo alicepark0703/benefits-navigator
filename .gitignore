@@ -1,4 +1,27 @@
+# Node
+node_modules/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+
+# Env files
 .env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python (if you use backend)
 __pycache__/
 *.pyc
+venv/
+.env/
+
+# VSCode
 .vscode/
