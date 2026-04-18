@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import sqlite3
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import HTTPException
 from passlib.context import CryptContext
@@ -11,6 +12,23 @@ from passlib.context import CryptContext
 DB_PATH = Path("data/app.db")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def _password_digest(plain: str) -> str:
+    """Fixed-length secret for bcrypt (72-byte limit on raw passwords)."""
+    return hashlib.sha256(plain.encode("utf-8")).hexdigest()
+
+
+def _hash_password(plain: str) -> str:
+    return pwd_context.hash(_password_digest(plain))
+
+
+def _check_password(plain: str, stored_hash: str) -> Literal["ok", "ok_legacy", "fail"]:
+    if pwd_context.verify(_password_digest(plain), stored_hash):
+        return "ok"
+    if len(plain.encode("utf-8")) <= 72 and pwd_context.verify(plain, stored_hash):
+        return "ok_legacy"
+    return "fail"
 
 
 class AuthService:
@@ -53,7 +71,7 @@ class AuthService:
     # SIGNUP
   
     def signup(self, full_name: str, email: str, password: str) -> dict[str, Any]:
-        password_hash = pwd_context.hash(password)
+        password_hash = _hash_password(password)
 
         try:
             with self._get_conn() as conn:
@@ -98,8 +116,17 @@ class AuthService:
             if user is None:
                 raise HTTPException(status_code=401, detail="Invalid email or password.")
 
-            if not pwd_context.verify(password, user["password_hash"]):
+            match = _check_password(password, user["password_hash"])
+            if match == "fail":
                 raise HTTPException(status_code=401, detail="Invalid email or password.")
+
+            if match == "ok_legacy":
+                new_hash = _hash_password(password)
+                conn.execute(
+                    "UPDATE users SET password_hash = ? WHERE id = ?",
+                    (new_hash, user["id"]),
+                )
+                conn.commit()
 
             profile = conn.execute(
                 """
