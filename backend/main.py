@@ -55,7 +55,10 @@ _rag_service: RAGService | None = None
 _llm_service: LLMService | None = None
 _auth_service: AuthService | None = None
 
-DEFAULT_QUERY = "What benefits might I be eligible for and why?"
+DEFAULT_QUERY = """Based on my profile and the following program information, tell me:
+1. Which programs I am likely eligible for.
+2. What programs I may be missing.
+3. Which combination of benefits would most reduce my instability."""
 
 
 def get_document_service() -> DocumentService:
