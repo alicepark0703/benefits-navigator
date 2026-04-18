@@ -1,11 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import EligibilityPage from "./pages/EligibilityPage";
-import Results from "./components/Results";
-
-function AgentPage() {
-  return <div style={{ padding: "40px" }}>AI Agent page coming soon.</div>;
-}
+import Results from "./pages/Results";
+import AgentPage from "./pages/AgentPage";
 
 export default function App() {
   return (
@@ -14,7 +11,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/eligibility" element={<EligibilityPage />} />
         <Route path="/results" element={<Results />} />
-        <Route path="/agent" element={<AgentPage />} />
+        <Route path="/chatbot" element={<AgentPage />} />
       </Routes>
     </BrowserRouter>
   );
