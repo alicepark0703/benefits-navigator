@@ -97,7 +97,12 @@ async def query_benefits(
     llm: Annotated[LLMService, Depends(get_llm_service)],
     auth: Annotated[AuthService, Depends(get_auth_service)],
 ) -> QueryResponse:
-    user_query = (request.query or "").strip() or DEFAULT_QUERY
+    raw_q = (request.query or "").strip()
+    user_query = raw_q or DEFAULT_QUERY
+    logger.info(
+        "api/query: prompt_source=%s",
+        "user" if raw_q else "default",
+    )
     retrieval_query = construct_retrieval_query(user_query, request.user_profile)
     documents = rag.retrieve(retrieval_query)
     context = build_context_from_documents(documents)

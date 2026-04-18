@@ -11,7 +11,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/eligibility" element={<EligibilityPage />} />
         <Route path="/results" element={<Results />} />
-        <Route path="/chatbot" element={<AgentPage />} />
+        <Route path="/agent" element={<AgentPage />} />
       </Routes>
     </BrowserRouter>
   );

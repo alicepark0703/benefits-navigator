@@ -28,7 +28,15 @@ export default function Agent({ children }) {
         location.state?.initialData ||
         JSON.parse(localStorage.getItem("eligibilityData") || "null");
     
-    async function handleSubmit(query) {
+    /** Sends trimmed text as `query`; backend only uses its default when this is empty/omitted. */
+    async function handleSubmit(submittedQuery) {
+        const trimmed =
+            typeof submittedQuery === "string" ? submittedQuery.trim() : "";
+        if (!trimmed) {
+            setError("Please enter a question.");
+            return null;
+        }
+
         setLoading(true);
         setError("");
 
@@ -39,7 +47,7 @@ export default function Agent({ children }) {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                query: query,
+                query: trimmed,
                 user_profile: initialData,
                 user_id: user?.id ?? null,
               }),

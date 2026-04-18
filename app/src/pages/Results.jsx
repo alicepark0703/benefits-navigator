@@ -104,7 +104,7 @@ export default function ResultsHub() {
               </p>
             </div>
 
-            <div onClick={() => navigate("/chatbot")} style={cardStyle}>
+            <div onClick={() => navigate("/agent")} style={cardStyle}>
               <h3
                 style={{
                   fontSize: 17,
