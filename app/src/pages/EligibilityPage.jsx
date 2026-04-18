@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import EligibilityForm from "../components/EligibilityForm";
+import Sidebar from "../components/Sidebar";
 
 export default function EligibilityPage() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [loading, setLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const initialData =
     location.state?.initialData ||
@@ -50,32 +53,101 @@ export default function EligibilityPage() {
   }
 
   if (loading) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: "Inter, sans-serif",
-          background: "#f4f4f6",
-          color: "#11151c",
-        }}
-      >
-        Checking eligibility...
-      </div>
-    );
+    return <div style={styles.loadingPage}>Checking eligibility...</div>;
   }
+  
+
+  const navItems = [
+    {
+      icon: "",
+      label: "Eligibility Form",
+      active: true,
+      onClick: () => {
+        setSidebarOpen(false);
+        navigate("/eligibility");
+      },
+    },
+    {
+      icon: "",
+      label: "Results",
+      active: false,
+      onClick: () => {
+        setSidebarOpen(false);
+        navigate("/results");
+      },
+    },
+    {
+      icon: "",
+      label: "AI Agent",
+      active: false,
+      onClick: () => {
+        setSidebarOpen(false);
+        navigate("/agent");
+      },
+    },
+  ];
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f4f4f6",
-        padding: "40px 24px",
-      }}
-    >
-      <EligibilityForm onSubmit={handleSubmit} initialData={initialData} />
+    <div style={styles.page}>
+      <button
+        type="button"
+        onClick={() => setSidebarOpen((prev) => !prev)}
+        style={{
+          ...styles.logoButton,
+          display: sidebarOpen ? "none" : "block",
+        }} 
+        aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
+      >
+         ❤ 
+      </button>
+
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        showOverlay={true}
+        navItems={navItems}
+      />
+
+      <main style={styles.main}>
+        <EligibilityForm onSubmit={handleSubmit} initialData={initialData} />
+      </main>
     </div>
   );
 }
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#f4f4f6",
+    fontFamily: "Inter, sans-serif",
+    position: "relative",
+  },
+  loadingPage: {
+    minHeight: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "Inter, sans-serif",
+    background: "#f4f4f6",
+    color: "#11151c",
+  },
+  logoButton: {
+    position: "fixed",
+    top: 24,
+    left: 24,
+    zIndex: 30,
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    border: "none",
+    background: "#7d4e57",
+    color: "#fff",
+    fontSize: 22,
+    cursor: "pointer",
+    boxShadow: "0 8px 20px rgba(17, 21, 28, 0.18)",
+  },
+  main: {
+    minHeight: "100vh",
+    padding: "96px 24px 40px 24px",
+  },
+};

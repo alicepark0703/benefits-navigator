@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function Home() {
       }
 
       if (data.token) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", JSON.stringify(data.token));
       }
 
       if (data.eligibilityData) {
@@ -87,39 +88,11 @@ export default function Home() {
 
   return (
     <div style={styles.page}>
-      <aside style={styles.sidebar}>
-        <div>
-          <div style={styles.logoBox}>
-            <div style={styles.logoInner}>⬢</div>
-          </div>
-
-          <div style={styles.brand}>Benefits Navigator</div>
-          <div style={styles.subBrand}>PORTAL</div>
-
-          <div style={{ marginTop: 48 }}>
-            <div style={styles.activeNav}>
-              <span style={styles.navIcon}>👤</span>
-              <span>{mode === "login" ? "Sign in" : "Sign up"}</span>
-            </div>
-
-            <div style={styles.disabledNav}>
-              <span style={styles.navIcon}>📊</span>
-              <span>Results</span>
-              <span style={styles.lockBadge}>locked</span>
-            </div>
-
-            <div style={styles.disabledNav}>
-              <span style={styles.navIcon}>✨</span>
-              <span>AI Agent</span>
-              <span style={styles.lockBadge}>locked</span>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <Sidebar mode={mode} />
 
       <main style={styles.main}>
         <div style={styles.card}>
-          <h1 style={styles.title}>Welcome back</h1>
+          <h1 style={styles.title}>Welcome!</h1>
           <p style={styles.subtitle}>
             {mode === "login" ? "Sign in to your account" : "Create your account"}
           </p>
@@ -243,72 +216,6 @@ const styles = {
     background: "#f4f4f5",
     color: "#11151c",
     fontFamily: "Inter, sans-serif",
-  },
-  sidebar: {
-    width: 320,
-    background: "#212d40",
-    color: "#fff",
-    padding: "36px 28px",
-    display: "flex",
-    flexDirection: "column",
-  },
-  logoBox: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    background: "#7d4e57",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 18,
-    fontSize: 20,
-  },
-  logoInner: {
-    color: "#fff",
-  },
-  brand: {
-    fontSize: 22,
-    fontWeight: 700,
-    lineHeight: 1.2,
-    marginBottom: 4,
-  },
-  subBrand: {
-    fontSize: 14,
-    color: "#a5b0c2",
-    letterSpacing: "0.08em",
-  },
-  activeNav: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    background: "rgba(125, 78, 87, 0.28)",
-    color: "#f0cfd5",
-    padding: "14px 16px",
-    borderRadius: 12,
-    marginBottom: 10,
-    fontSize: 18,
-  },
-  disabledNav: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    color: "#7f8ba0",
-    padding: "14px 16px",
-    borderRadius: 12,
-    marginBottom: 6,
-    fontSize: 18,
-  },
-  navIcon: {
-    width: 24,
-    textAlign: "center",
-  },
-  lockBadge: {
-    marginLeft: "auto",
-    fontSize: 12,
-    background: "#364156",
-    color: "#c7d0de",
-    padding: "4px 8px",
-    borderRadius: 8,
   },
   main: {
     flex: 1,
