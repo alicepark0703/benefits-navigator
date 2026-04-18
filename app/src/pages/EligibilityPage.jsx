@@ -92,7 +92,10 @@ export default function EligibilityPage() {
       <button
         type="button"
         onClick={() => setSidebarOpen((prev) => !prev)}
-        style={styles.logoButton}
+        style={{
+          ...styles.logoButton,
+          display: sidebarOpen ? "none" : "block",
+        }} 
         aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
       >
          ❤ 
