@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Literal
+from typing import Literal, Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, EmailStr
 
 
 def to_camel(string: str) -> str:
@@ -65,12 +65,13 @@ class QueryRequest(BaseModel):
         description="Optional custom user question; backend applies a default when omitted or empty.",
     )
     user_profile: UserProfile
+    user_id: int | None = None
 
 
 class QueryResponse(BaseModel):
     answer: str
     eligible_programs: list[str]
-    sources: list[dict]
+    sources: list[dict[str, Any]]
 
 
 class DocumentInfo(BaseModel):
@@ -92,3 +93,28 @@ class StatusResponse(BaseModel):
     total_documents: int
     total_chunks: int
     last_sync: datetime | None
+
+
+class SignupRequest(BaseModel):
+    full_name: str
+    email: EmailStr
+    password: str
+
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class UserResponse(BaseModel):
+    id: int
+    full_name: str
+    email: EmailStr
+
+
+class AuthResponse(BaseModel):
+    message: str
+    user: UserResponse
+    has_eligibility_profile: bool
+    eligibility_data: UserProfile | None = None
+    selected_programs: list[str] = []

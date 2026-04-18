@@ -9,9 +9,19 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 import config
-from models.schemas import DocumentInfo, QueryRequest, QueryResponse, StatusResponse, SyncResponse
+from models.schemas import (
+    AuthResponse,
+    DocumentInfo,
+    LoginRequest,
+    QueryRequest,
+    QueryResponse,
+    SignupRequest,
+    StatusResponse,
+    SyncResponse,
+)
 from services.document_service import DocumentService
 from services.llm_service import LLMService
+from services.auth_service import AuthService
 from services.prompt_builder import (
     build_context_from_documents,
     build_llm_prompt,
@@ -19,6 +29,7 @@ from services.prompt_builder import (
     extract_eligible_program_mentions,
 )
 from services.rag_service import RAGService
+from services.auth_service import AuthService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,6 +53,7 @@ app.add_middleware(
 _document_service: DocumentService | None = None
 _rag_service: RAGService | None = None
 _llm_service: LLMService | None = None
+_auth_service: AuthService | None = None
 
 DEFAULT_QUERY = "What benefits might I be eligible for and why?"
 
@@ -66,6 +78,12 @@ def get_llm_service() -> LLMService:
         _llm_service = LLMService()
     return _llm_service
 
+def get_auth_service() -> AuthService:
+    global _auth_service
+    if _auth_service is None:
+        _auth_service = AuthService()
+    return _auth_service
+
 
 @app.get("/health")
 def health() -> dict[str, str]:
@@ -77,6 +95,7 @@ async def query_benefits(
     request: QueryRequest,
     rag: Annotated[RAGService, Depends(get_rag_service)],
     llm: Annotated[LLMService, Depends(get_llm_service)],
+    auth: Annotated[AuthService, Depends(get_auth_service)],
 ) -> QueryResponse:
     user_query = (request.query or "").strip() or DEFAULT_QUERY
     retrieval_query = construct_retrieval_query(user_query, request.user_profile)
@@ -95,6 +114,14 @@ async def query_benefits(
 
     programs = extract_eligible_program_mentions(answer)
     sources = [dict(doc.metadata) for doc in documents]
+
+    if request.user_id is not None:
+        auth.save_eligibility_profile(
+            user_id=request.user_id,
+            eligibility_data=request.user_profile.model_dump(by_alias=False),
+            selected_programs=programs,
+        )
+
     return QueryResponse(answer=answer, eligible_programs=programs, sources=sources)
 
 
@@ -109,6 +136,31 @@ async def sync_documents(
         deleted=result.deleted,
         total_documents=doc_svc.get_document_count(),
     )
+
+
+@app.post("/api/signup", response_model=AuthResponse)
+async def signup(
+    request: SignupRequest,
+    auth: Annotated[AuthService, Depends(get_auth_service)],
+) -> AuthResponse:
+    result = auth.signup(
+        full_name=request.full_name,
+        email=request.email,
+        password=request.password,
+    )
+    return AuthResponse(**result)
+
+
+@app.post("/api/login", response_model=AuthResponse)
+async def login(
+    request: LoginRequest,
+    auth: Annotated[AuthService, Depends(get_auth_service)],
+) -> AuthResponse:
+    result = auth.login(
+        email=request.email,
+        password=request.password,
+    )
+    return AuthResponse(**result)
 
 
 @app.get("/api/documents", response_model=list[DocumentInfo])
