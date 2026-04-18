@@ -1,8 +1,13 @@
 import { useState } from 'react';
 
 const STEPS = [
-
-]
+  { title: "Where do you live?", sub: "We use this to find programs in your area." },
+  { title: "Who's in your household?", sub: "Tell us about the people you live with." },
+  { title: "Income & assets", sub: "All amounts are kept private and secure." },
+  { title: "Employment & education", sub: "Your current work and school situation." },
+  { title: "Housing", sub: "Where and how you currently live." },
+  { title: "Additional details", sub: "A few more things that may affect eligibility." },
+];
 const CITIZENSHIP_OPTIONS = [
     { value: "", label: "Select citizenship status" },
     { value: "citizen", label: "U.S. Citizen" },
@@ -158,19 +163,6 @@ function Conditional({ children }) {
   );
 }
 
-function handleNext() {
-  if (step === 0 && (!formData.county || !formData.citizenshipStatus)) {
-    alert("Please fill out all fields before continuing.");
-    return;
-  }
-  if (step === 1 && (!formData.householdSize || !formData.pregnancyStatus)) {
-    alert("Please fill out all fields before continuing.");
-    return;
-  }
-  // etc for each step...
-  setStep((s) => s + 1);
-}
-
 function Divider() {
   return <hr style={{ border: "none", borderTop: "0.5px solid #eee", margin: "1.25rem 0" }} />;
 }
@@ -198,10 +190,35 @@ export default function EligibilityForm({ onSubmit }) {
         ageOver60: "",
         receivesSSI: "",
     });
-    
+    const [step, setStep] = useState(0);
     function handleChange(field, value) {
         setFormData((prev) => ({...prev, [field]: value }));
     }
+
+    function handleNext() {
+        if (step === 0 && (!formData.county || !formData.citizenshipStatus)) {
+            alert("Please fill out all fields before continuing.");
+            return;
+        }
+        if (step === 1 && (!formData.householdSize || !formData.pregnancyStatus)) {
+            alert("Please fill out all fields before continuing.");
+            return;
+        }
+        if (step === 2 && (!formData.annualIncome || !formData.assets)) {
+            alert("Please fill out all fields before continuing.");
+            return;
+        }
+        if (step === 3 && (!formData.employmentStatus || !formData.studentStatus)) {
+            alert("Please fill out all fields before continuing.");
+            return;
+        }
+        if (step === 4 && !formData.housingStatus) {
+            alert("Please fill out all fields before continuing.");
+            return;
+        }
+        setStep((s) => s + 1);
+    }
+
 
     function handleSubmit(e) {
         e.preventDefault(); // prevnt page refresh on submit
