@@ -22,7 +22,7 @@ export default function ResultsHub() {
       active: true,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/results");
+        navigate("/eligibility-results");
       },
     },
     {
