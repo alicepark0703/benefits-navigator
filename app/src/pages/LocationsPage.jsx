@@ -151,7 +151,7 @@ export default function LocationsPage() {
         navItems={navItems}
       />
 
-      <main style={styles.main}>
+      <main style={{...styles.main, position: "relative", zIndex: 0 }}>
         <section style={styles.panel}>
           <h2 style={styles.heading}>Nearby NY Benefit Offices</h2>
           <p style={styles.description}>
@@ -213,13 +213,11 @@ export default function LocationsPage() {
                 ))}
               </div>
 
-              <Suspense
-                fallback={
-                  <div style={styles.mapPlaceholder}>Loading map…</div>
-                }
-              >
-                <OfficeMap offices={offices} mapCenter={mapCenter} />
-              </Suspense>
+              <div style={{ position: "relative", zIndex: 0 }}>
+                <Suspense fallback={<div style={styles.mapPlaceholder}>Loading map…</div>}>
+                  <OfficeMap offices={offices} mapCenter={mapCenter} />
+                </Suspense>
+              </div>
             </>
           ) : null}
         </section>

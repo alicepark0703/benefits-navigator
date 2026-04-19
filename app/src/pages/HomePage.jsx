@@ -290,7 +290,7 @@ const styles = {
 
   placeholderCaption: {
     fontSize: "9px",
-    color: "#6b7280",
+    color: "#364156",
     marginTop: "12px",
   },
 

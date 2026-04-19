@@ -72,7 +72,7 @@ export default function Home() {
         localStorage.setItem("selectedPrograms", JSON.stringify(data.selectedPrograms));
       }
 
-      navigate("/eligibility", {
+      navigate("/home/eligibility", {
         state: {
           mode: data.hasEligibilityProfile ? "existing" : "new",
           initialData: data.eligibilityData || null,
