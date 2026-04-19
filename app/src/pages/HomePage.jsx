@@ -1,8 +1,17 @@
 import { useNavigate } from "react-router-dom";
+
 export default function HomePage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const scrollToForm = () => {
+    document.getElementById("eligibility-form")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div style={styles.page}>
+      {/* HERO */}
       <section style={styles.heroSection}>
         <div style={styles.heroText}>
           <p style={styles.kicker}>WELCOME TO</p>
@@ -13,141 +22,158 @@ export default function HomePage() {
           <p style={styles.description}>
             Benefits Navigator helps individuals and families quickly explore
             eligibility for essential assistance programs in New York,
-            including SNAP, Medicaid, and HEAP. Our goal is to make benefits
-            information easier to understand and easier to access.
+            including SNAP, Medicaid, and HEAP.
           </p>
 
           <div style={styles.buttonRow}>
-            <button style={styles.primaryButton}>Check Eligibility</button>
-            <button style={styles.secondaryButton}>Learn More</button>
+            <button style={styles.primaryButton} onClick={scrollToForm}>
+              Check Eligibility
+            </button>
+
+            <button
+              style={styles.secondaryButton}
+              onClick={() => navigate("/locations")}
+            >
+              Find Closest Office
+            </button>
           </div>
         </div>
 
         <div style={styles.heroImageBox}>
-          <div style={styles.placeholderImageLarge}>
-            Hero Photo Placeholder
-          </div>
-          <p style={styles.placeholderCaption}>
-            Suggested image: family using a laptop, community support scene, or
-            clean dashboard mockup
-          </p>
+          <img src="/images/hero.jpg" alt="Family" style={styles.heroImage} />
         </div>
       </section>
 
+      {/* LOGIN / SIGNUP BOX */}
+      <section style={styles.authSection}>
+        <div style={styles.authBox}>
+          <h2 style={styles.authTitle}>Get Started</h2>
+          <p style={styles.authText}>
+            Sign in or create an account to save your progress and access personalized results.
+          </p>
+
+          <div style={styles.buttonRowCentered}>
+            <button
+              style={styles.primaryButton}
+              onClick={() => navigate("/home")}
+            >
+              Login
+            </button>
+
+            <button
+              style={styles.secondaryButton}
+              onClick={() => navigate("/home")}
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
       <section style={styles.section}>
         <h2 style={styles.sectionTitle}>How It Works</h2>
         <div style={styles.cardGridThree}>
           <div style={styles.infoCard}>
             <h3 style={styles.cardTitle}>1. Fill Out the Eligibility Form</h3>
             <p style={styles.cardText}>
-              Answer a few simple questions about your household, income, and
-              current situation.
+              Answer a few simple questions about your household and income.
             </p>
           </div>
 
           <div style={styles.infoCard}>
             <h3 style={styles.cardTitle}>2. Get Personalized Results</h3>
             <p style={styles.cardText}>
-              Instantly see which programs you may qualify for based on the
-              information you provide.
+              Instantly see which programs you may qualify for.
             </p>
           </div>
 
           <div style={styles.infoCard}>
             <h3 style={styles.cardTitle}>3. Explore with AI Guidance</h3>
             <p style={styles.cardText}>
-              Ask questions and get help understanding benefits, requirements,
-              and next steps.
+              Ask questions and get help understanding next steps.
             </p>
           </div>
         </div>
       </section>
 
+      {/* PROGRAMS */}
       <section style={styles.sectionAlt}>
         <h2 style={styles.sectionTitle}>Programs Included</h2>
-        <p style={styles.sectionDescription}>
-          We focus on three major assistance programs in New York to make the
-          process more clear, practical, and accessible.
-        </p>
 
         <div style={styles.cardGridThree}>
           <div style={styles.programCard}>
-            <div style={styles.placeholderImageSmall}>SNAP Image Placeholder</div>
+            <img src="/images/snap.jpg" alt="SNAP" style={styles.programImage} />
             <h3 style={styles.cardTitle}>SNAP</h3>
-            <p style={styles.cardText}>
-              Food assistance support for individuals and families.
-            </p>
+            <p style={styles.cardText}>Food assistance support.</p>
           </div>
 
           <div style={styles.programCard}>
-            <div style={styles.placeholderImageSmall}>
-              Medicaid Image Placeholder
-            </div>
+            <img
+              src="/images/medicaid.jpg"
+              alt="Medicaid"
+              style={styles.programImage}
+            />
             <h3 style={styles.cardTitle}>Medicaid</h3>
-            <p style={styles.cardText}>
-              Health coverage support for eligible residents.
-            </p>
+            <p style={styles.cardText}>Health coverage support.</p>
           </div>
 
           <div style={styles.programCard}>
-            <div style={styles.placeholderImageSmall}>HEAP Image Placeholder</div>
+            <img src="/images/heap.jpg" alt="HEAP" style={styles.programImage} />
             <h3 style={styles.cardTitle}>HEAP</h3>
-            <p style={styles.cardText}>
-              Energy assistance for heating and home utility needs.
-            </p>
+            <p style={styles.cardText}>Energy assistance support.</p>
           </div>
         </div>
       </section>
 
+      {/* NEW FEATURE */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Need Help? Ask Our AI Assistant</h2>
+        <h2 style={styles.sectionTitle}>Find Help Near You</h2>
         <p style={styles.sectionDescription}>
-          Not sure what a requirement means? Confused about eligibility rules?
-          Our AI assistant helps explain benefits in a simple and approachable
-          way.
+          Locate the nearest SNAP, Medicaid, or HEAP office in your area.
         </p>
         <div style={styles.centeredButton}>
-            <button
-                style={styles.primaryButton}
-                onClick={() => navigate("/agent")}
-            >
-                Ask the Assistant
-            </button>
+          <button
+            style={styles.primaryButton}
+            onClick={() => navigate("/home/locations")}
+          >
+            Find Nearby Offices
+          </button>
         </div>
       </section>
 
+      {/* AI */}
       <section style={styles.sectionAlt}>
-        <h2 style={styles.sectionTitle}>Why We Built This</h2>
-        <p style={styles.descriptionCentered}>
-          Accessing government benefits should not feel confusing or
-          overwhelming. Many eligible individuals miss out on support because
-          systems are difficult to navigate and information is not always easy
-          to understand.
-        </p>
-        <p style={styles.descriptionCentered}>
-          Benefits Navigator simplifies the process by helping users check
-          eligibility, understand their options, and get guidance in one place.
-        </p>
-      </section>
-
-      <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Platform Features</h2>
-        <div style={styles.featureGrid}>
-          <div style={styles.featureCard}>Simple eligibility form</div>
-          <div style={styles.featureCard}>Instant results dashboard</div>
-          <div style={styles.featureCard}>AI powered explanations</div>
-          <div style={styles.featureCard}>Focused on New York programs</div>
-          <div style={styles.featureCard}>Clean and user friendly design</div>
+        <h2 style={styles.sectionTitle}>Need Help?</h2>
+        <div style={styles.centeredButton}>
+          <button
+            style={styles.primaryButton}
+            onClick={() => navigate("/home/agent")}
+          >
+            Ask the Assistant
+          </button>
         </div>
       </section>
 
-      <section style={styles.ctaSection}>
-        <h2 style={styles.ctaTitle}>Find out what you may qualify for today.</h2>
+      {/* CTA / FORM */}
+      <section id="eligibility-form" style={styles.ctaSection}>
+        <h2 style={styles.ctaTitle}>
+          Find out what you may qualify for today.
+        </h2>
+
         <div style={styles.buttonRowCentered}>
-          <button style={styles.primaryButton}>Start Eligibility Check</button>
-          <button style={styles.secondaryButton}>Explore Features</button>
+          <button style={styles.primaryButton} onClick={() => navigate("/home/eligibility")}>
+            Start Eligibility Check
+          </button>
         </div>
       </section>
+
+      {/* FOOTER CREDIT */}
+      <div style={{ textAlign: "center", padding: "20px" }}>
+        <p style={styles.placeholderCaption}>
+          Images sourced from Unsplash.
+        </p>
+      </div>
     </div>
   );
 }
@@ -263,7 +289,7 @@ const styles = {
   },
 
   placeholderCaption: {
-    fontSize: "14px",
+    fontSize: "9px",
     color: "#6b7280",
     marginTop: "12px",
   },
@@ -382,12 +408,59 @@ const styles = {
     padding: "72px 48px",
     textAlign: "center",
     background:  "#d9e2ec",
-    color: "#ffffff",
+    color: "#11151c",
   },
 
   ctaTitle: {
     fontSize: "32px",
     fontWeight: "700",
     marginBottom: "12px",
+  },
+
+  heroImage: {
+    width: "100%",
+    height: "280px",
+    objectFit: "cover",
+    borderRadius: "16px",
+    boxShadow: "0 10px 24px rgba(17, 21, 28, 0.06)",
+  },
+
+  programImage: {
+    width: "100%",
+    height: "140px",
+    objectFit: "cover",
+    borderRadius: "12px",
+    marginBottom: "18px",
+  },
+
+  authSection: {
+  padding: "40px 48px",
+  display: "flex",
+  justifyContent: "center",
+  backgroundColor: "#f7f9fc",
+  },
+
+  authBox: {
+    width: "100%",
+    maxWidth: "700px",
+    backgroundColor: "#ffffff",
+    borderRadius: "16px",
+    padding: "36px",
+    textAlign: "center",
+    boxShadow: "0 10px 30px rgba(17, 21, 28, 0.08)",
+    border: "1px solid #e5e7eb",
+  },
+
+  authTitle: {
+    fontSize: "26px",
+    fontWeight: "700",
+    marginBottom: "12px",
+    color: "#11151c",
+  },
+
+  authText: {
+    fontSize: "16px",
+    color: "#4b5563",
+    marginBottom: "24px",
   },
 };

@@ -98,7 +98,7 @@ export default function LocationsPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/eligibility");
+        navigate("/home/eligibility");
       },
     },
     {
@@ -107,7 +107,7 @@ export default function LocationsPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/results");
+        navigate("/home/results");
       },
     },
     {
@@ -116,7 +116,7 @@ export default function LocationsPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/agent");
+        navigate("/home/agent");
       },
     },
     {
@@ -125,7 +125,7 @@ export default function LocationsPage() {
       active: true,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/locations");
+        navigate("/home/locations");
       },
     },
   ];

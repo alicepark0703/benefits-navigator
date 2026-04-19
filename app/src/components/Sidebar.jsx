@@ -34,7 +34,7 @@ export default function Sidebar({
         }}
       >
         <div>
-          <Link to="*" style={styles.logoBox}>
+          <Link to="/" style={styles.logoBox}>
             <div style={styles.logoInner}>❤</div>
           </Link>
 

@@ -59,7 +59,7 @@ export default function EligibilityPage() {
       active: true,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/eligibility");
+        navigate("/home/eligibility");
       },
     },
     {
@@ -68,7 +68,7 @@ export default function EligibilityPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/eligibility-results");
+        navigate("/home/eligibility-results");
       },
     },
     {
@@ -77,7 +77,7 @@ export default function EligibilityPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/agent");
+        navigate("/home/agent");
       },
     },
     {
@@ -86,7 +86,7 @@ export default function EligibilityPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/locations");
+        navigate("/home/locations");
       },
     },
   ];

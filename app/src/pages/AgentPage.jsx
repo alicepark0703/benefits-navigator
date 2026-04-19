@@ -22,25 +22,25 @@ export default function AgentPage() {
       icon: "",
       label: "Eligibility Form",
       active: false,
-      onClick: () => { setSidebarOpen(false); navigate("/eligibility"); },
+      onClick: () => { setSidebarOpen(false); navigate("/home/eligibility"); },
     },
     {
       icon: "",
       label: "Results",
       active: false,
-      onClick: () => { setSidebarOpen(false); navigate("/eligibility-results"); },
+      onClick: () => { setSidebarOpen(false); navigate("/home/eligibility-results"); },
     },
     {
       icon: "",
       label: "AI Agent",
       active: true,
-      onClick: () => { setSidebarOpen(false); navigate("/agent"); },
+      onClick: () => { setSidebarOpen(false); navigate("/home/agent"); },
     },
     {
       icon: "",
       label: "Nearby Offices",
       active: false,
-      onClick: () => { setSidebarOpen(false); navigate("/locations"); },
+      onClick: () => { setSidebarOpen(false); navigate("/home/locations"); },
     },
   ];
 

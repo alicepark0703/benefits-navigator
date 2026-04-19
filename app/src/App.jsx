@@ -11,13 +11,13 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/eligibility" element={<EligibilityPage />} />
-        <Route path="/results" element={<Results />} />
-        <Route path="/agent" element={<AgentPage />} />
-        <Route path="/eligibility-results" element={<EligibilityResults />} />
-        <Route path="*" element={<HomePage />} />
-        <Route path="/locations" element={<LocationsPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home/eligibility" element={<EligibilityPage />} />
+        <Route path="/home/results" element={<Results />} />
+        <Route path="/home/agent" element={<AgentPage />} />
+        <Route path="/home/eligibility-results" element={<EligibilityResults />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/home/locations" element={<LocationsPage />} />
       </Routes>
     </BrowserRouter>
   );
