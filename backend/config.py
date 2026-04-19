@@ -37,6 +37,11 @@ GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 # RAG
 RAG_TOP_K: int = int(os.getenv("RAG_TOP_K", "5"))
 
+# Conversation memory RAG
+MEMORY_ENABLED: bool = os.getenv("MEMORY_ENABLED", "true").lower() in {"1", "true", "yes", "on"}
+MEMORY_TOP_K: int = int(os.getenv("MEMORY_TOP_K", "3"))
+MEMORY_COLLECTION_NAME: str = os.getenv("MEMORY_COLLECTION_NAME", "conversation_memory")
+
 # CORS (comma-separated origins, or * for dev)
 CORS_ORIGINS: list[str] = [
     o.strip()

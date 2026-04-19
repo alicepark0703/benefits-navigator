@@ -166,7 +166,7 @@ export default function AgentPage() {
 
                             {msg.programs?.length ? (
                               <div style={{ marginTop: 12 }}>
-                                <strong>Mentioned programs</strong>
+                                <strong>Mentioned Content</strong>
                                 <ul style={{ margin: "4px 0 0", paddingLeft: 18 }}>
                                   {msg.programs.map((p) => <li key={p}>{p}</li>)}
                                 </ul>

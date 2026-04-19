@@ -66,6 +66,10 @@ class QueryRequest(BaseModel):
     )
     user_profile: UserProfile
     user_id: int | None = None
+    include_memory: bool = Field(
+        default=True,
+        description="When true, include retrieved conversation memory context in prompt construction.",
+    )
 
 
 class QueryResponse(BaseModel):

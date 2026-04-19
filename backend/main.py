@@ -22,14 +22,16 @@ from models.schemas import (
 from services.document_service import DocumentService
 from services.llm_service import LLMService
 from services.auth_service import AuthService
+from services.memory_service import MemoryService
+from services.parallel_retrieval import retrieve_all_context
 from services.prompt_builder import (
     build_context_from_documents,
+    build_memory_context,
     build_llm_prompt,
     construct_retrieval_query,
     extract_eligible_program_mentions,
 )
 from services.rag_service import RAGService
-from services.auth_service import AuthService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -54,6 +56,7 @@ _document_service: DocumentService | None = None
 _rag_service: RAGService | None = None
 _llm_service: LLMService | None = None
 _auth_service: AuthService | None = None
+_memory_service: MemoryService | None = None
 
 DEFAULT_QUERY = """Based on my profile and the following program information, tell me:
 1. Which programs I am likely eligible for.
@@ -88,6 +91,13 @@ def get_auth_service() -> AuthService:
     return _auth_service
 
 
+def get_memory_service() -> MemoryService:
+    global _memory_service
+    if _memory_service is None:
+        _memory_service = MemoryService()
+    return _memory_service
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -99,6 +109,7 @@ async def query_benefits(
     rag: Annotated[RAGService, Depends(get_rag_service)],
     llm: Annotated[LLMService, Depends(get_llm_service)],
     auth: Annotated[AuthService, Depends(get_auth_service)],
+    memory: Annotated[MemoryService, Depends(get_memory_service)],
 ) -> QueryResponse:
     raw_q = (request.query or "").strip()
     user_query = raw_q or DEFAULT_QUERY
@@ -107,9 +118,18 @@ async def query_benefits(
         "user" if raw_q else "default",
     )
     retrieval_query = construct_retrieval_query(user_query, request.user_profile)
-    documents = rag.retrieve(retrieval_query)
+    include_memory = config.MEMORY_ENABLED and request.include_memory
+    documents, memories = await retrieve_all_context(
+        retrieval_query=retrieval_query,
+        user_query=user_query,
+        user_id=request.user_id,
+        include_memory=include_memory,
+        rag_service=rag,
+        memory_service=memory,
+    )
     context = build_context_from_documents(documents)
-    prompt = build_llm_prompt(context, user_query, request.user_profile)
+    memory_context = build_memory_context(memories)
+    prompt = build_llm_prompt(context, memory_context, user_query, request.user_profile)
 
     try:
         answer = llm.generate(prompt)
@@ -129,6 +149,12 @@ async def query_benefits(
             eligibility_data=request.user_profile.model_dump(by_alias=False),
             selected_programs=programs,
         )
+        if config.MEMORY_ENABLED:
+            memory.add_memory(
+                user_id=request.user_id,
+                query=user_query,
+                answer=answer,
+            )
 
     return QueryResponse(answer=answer, eligible_programs=programs, sources=sources)
 
