@@ -134,7 +134,7 @@ export default function AgentPage() {
                   {messages.map((msg, i) => (
                     <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
                       <div style={{
-                        background: msg.role === "user" ? "#7d4e57" : "#f0edf0",
+                        background: msg.role === "user" ? "#5b5271" : "#f0edf0",
                         color: msg.role === "user" ? "#fff" : COLORS.ink,
                         borderRadius: msg.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
                         padding: "12px 16px",
@@ -258,7 +258,7 @@ export default function AgentPage() {
                     disabled={loading}
                     style={{
                       width: 48, height: 48, borderRadius: 14, border: "none",
-                      background: loading ? "#b89099" : "#7d4e57",
+                      background: loading ? "#b89099" : "#5b5271",
                       color: "#fff", fontSize: 20,
                       cursor: loading ? "not-allowed" : "pointer",
                       flexShrink: 0, boxShadow: "0 4px 12px rgba(125, 78, 87, 0.35)",
