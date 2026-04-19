@@ -25,6 +25,7 @@ backend/data/chroma_db/*
 backend/data/document_registry.json
 backend/data/hf_cache/
 
+backend/data/app.db
 # OS
 .DS_Store
 Thumbs.db
