@@ -36,6 +36,12 @@ export default function AgentPage() {
       active: true,
       onClick: () => { setSidebarOpen(false); navigate("/agent"); },
     },
+    {
+      icon: "",
+      label: "Nearby Offices",
+      active: false,
+      onClick: () => { setSidebarOpen(false); navigate("/locations"); },
+    },
   ];
 
   const handleAgentResult = (result, resultSources) => {

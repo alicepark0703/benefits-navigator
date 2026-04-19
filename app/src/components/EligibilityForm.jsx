@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const COLORS = {
   ink: "#11151c",
@@ -242,6 +242,19 @@ export default function EligibilityForm({ onSubmit, initialData = null }) {
   });
 
   const [step, setStep] = useState(0);
+
+  // Persist draft as the user edits so values survive navigation and refresh
+  // without requiring a successful eligibility check first.
+  useEffect(() => {
+    const id = setTimeout(() => {
+      try {
+        localStorage.setItem("eligibilityData", JSON.stringify(formData));
+      } catch (err) {
+        console.error("Could not save eligibility draft:", err);
+      }
+    }, 400);
+    return () => clearTimeout(id);
+  }, [formData]);
 
   function handleChange(field, value) {
     setFormData((prev) => ({ ...prev, [field]: value }));

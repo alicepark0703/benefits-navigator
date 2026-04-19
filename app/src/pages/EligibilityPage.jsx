@@ -85,6 +85,15 @@ export default function EligibilityPage() {
         navigate("/agent");
       },
     },
+    {
+      icon: "",
+      label: "Nearby Offices",
+      active: false,
+      onClick: () => {
+        setSidebarOpen(false);
+        navigate("/locations");
+      },
+    },
   ];
 
   return (

@@ -34,6 +34,15 @@ export default function ResultsHub() {
         navigate("/agent");
       },
     },
+    {
+      icon: "",
+      label: "Nearby Offices",
+      active: false,
+      onClick: () => {
+        setSidebarOpen(false);
+        navigate("/locations");
+      },
+    },
   ];
 
   return (
@@ -117,6 +126,22 @@ export default function ResultsHub() {
               </h3>
               <p style={{ fontSize: 14, color: "#364156", margin: 0 }}>
                 Chat with our AI to learn more about your options.
+              </p>
+            </div>
+
+            <div onClick={() => navigate("/locations")} style={cardStyle}>
+              <h3
+                style={{
+                  fontSize: 17,
+                  fontWeight: 600,
+                  marginBottom: 6,
+                  color: "#212d40",
+                }}
+              >
+                Find nearby offices
+              </h3>
+              <p style={{ fontSize: 14, color: "#364156", margin: 0 }}>
+                Explore official NY offices near your ZIP code.
               </p>
             </div>
           </div>
