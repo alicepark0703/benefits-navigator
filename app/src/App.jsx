@@ -4,6 +4,8 @@ import EligibilityPage from "./pages/EligibilityPage";
 import Results from "./pages/Results";
 import AgentPage from "./pages/AgentPage";
 import LocationsPage from "./pages/LocationsPage";
+import EligibilityResults from "./pages/EligibilityResults";
+import HomePage from "./pages/HomePage";
 
 export default function App() {
   return (
@@ -13,6 +15,8 @@ export default function App() {
         <Route path="/eligibility" element={<EligibilityPage />} />
         <Route path="/results" element={<Results />} />
         <Route path="/agent" element={<AgentPage />} />
+        <Route path="/eligibility-results" element={<EligibilityResults />} />
+        <Route path="*" element={<HomePage />} />
         <Route path="/locations" element={<LocationsPage />} />
       </Routes>
     </BrowserRouter>

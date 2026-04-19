@@ -52,11 +52,6 @@ export default function EligibilityPage() {
     }
   }
 
-  if (loading) {
-    return <div style={styles.loadingPage}>Checking eligibility...</div>;
-  }
-  
-
   const navItems = [
     {
       icon: "",
@@ -73,7 +68,7 @@ export default function EligibilityPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/results");
+        navigate("/eligibility-results");
       },
     },
     {
@@ -98,16 +93,44 @@ export default function EligibilityPage() {
 
   return (
     <div style={styles.page}>
+      <style>
+        {`
+          @keyframes loadingWave {
+            0%, 60%, 100% {
+              transform: translateY(0);
+              opacity: 0.35;
+            }
+            30% {
+              transform: translateY(-8px);
+              opacity: 1;
+            }
+          }
+        `}
+      </style>
+
+      {loading && (
+        <div style={styles.loadingOverlay}>
+          <div style={styles.loadingModal}>
+            <div style={styles.loadingTitle}>Checking eligibility</div>
+            <div style={styles.loadingDots}>
+              <span style={{ ...styles.loadingDot, animationDelay: "0s" }}>•</span>
+              <span style={{ ...styles.loadingDot, animationDelay: "0.15s" }}>•</span>
+              <span style={{ ...styles.loadingDot, animationDelay: "0.3s" }}>•</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <button
         type="button"
         onClick={() => setSidebarOpen((prev) => !prev)}
         style={{
           ...styles.logoButton,
           display: sidebarOpen ? "none" : "block",
-        }} 
+        }}
         aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
       >
-         ❤ 
+        ❤
       </button>
 
       <Sidebar
@@ -131,15 +154,50 @@ const styles = {
     fontFamily: "Inter, sans-serif",
     position: "relative",
   },
-  loadingPage: {
-    minHeight: "100vh",
+
+  loadingOverlay: {
+    position: "fixed",
+    inset: 0,
+    background: "rgba(17, 21, 28, 0.45)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Inter, sans-serif",
-    background: "#f4f4f6",
-    color: "#11151c",
+    zIndex: 100,
+    backdropFilter: "blur(3px)",
   },
+
+  loadingModal: {
+    background: "#fff",
+    color: "#212d40",
+    borderRadius: 20,
+    padding: "28px 36px",
+    minWidth: 280,
+    textAlign: "center",
+    boxShadow: "0 20px 50px rgba(17, 21, 28, 0.28)",
+    border: "1px solid rgba(125, 78, 87, 0.45)",
+  },
+
+  loadingTitle: {
+    fontSize: 22,
+    fontWeight: 700,
+    marginBottom: 10,
+  },
+
+  loadingDots: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 6,
+    minHeight: 24,
+  },
+
+  loadingDot: {
+    fontSize: 28,
+    color: "#7d4e57",
+    display: "inline-block",
+    animation: "loadingWave 1s infinite ease-in-out",
+  },
+
   logoButton: {
     position: "fixed",
     top: 24,
@@ -155,6 +213,7 @@ const styles = {
     cursor: "pointer",
     boxShadow: "0 8px 20px rgba(17, 21, 28, 0.18)",
   },
+
   main: {
     minHeight: "100vh",
     padding: "96px 24px 40px 24px",
