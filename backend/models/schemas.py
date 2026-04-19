@@ -78,6 +78,20 @@ class QueryResponse(BaseModel):
     sources: list[dict[str, Any]]
 
 
+class OfficeLocation(BaseModel):
+    id: str
+    name: str
+    address: str
+    lat: float
+    lng: float
+    phone: str | None = None
+    programs: list[str] = Field(default_factory=list)
+    hours: str | None = None
+    county: str
+    zip_code: str | None = None
+    distance_miles: float | None = None
+
+
 class DocumentInfo(BaseModel):
     filename: str
     file_hash: str

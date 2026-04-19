@@ -16,6 +16,8 @@ DOCUMENTS_DIR: Path = DATA_DIR / "documents"
 CHROMA_DIR: Path = DATA_DIR / "chroma_db"
 REGISTRY_PATH: Path = DATA_DIR / "document_registry.json"
 HF_CACHE_DIR: Path = DATA_DIR / "hf_cache"
+LOCATIONS_PATH: Path = DATA_DIR / "locations.json"
+NY_ZIP_CENTROIDS_PATH: Path = DATA_DIR / "ny_zip_centroids.json"
 
 # Chroma collection name shared by ingestion and retrieval
 CHROMA_COLLECTION_NAME: str = os.getenv("CHROMA_COLLECTION_NAME", "benefits_programs")

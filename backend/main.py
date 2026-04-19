@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Annotated
 
@@ -13,6 +14,7 @@ from models.schemas import (
     AuthResponse,
     DocumentInfo,
     LoginRequest,
+    OfficeLocation,
     QueryRequest,
     QueryResponse,
     SignupRequest,
@@ -23,6 +25,7 @@ from services.document_service import DocumentService
 from services.llm_service import LLMService
 from services.auth_service import AuthService
 from services.memory_service import MemoryService
+from services.location_service import LocationService
 from services.parallel_retrieval import retrieve_all_context
 from services.prompt_builder import (
     build_context_from_documents,
@@ -57,6 +60,7 @@ _rag_service: RAGService | None = None
 _llm_service: LLMService | None = None
 _auth_service: AuthService | None = None
 _memory_service: MemoryService | None = None
+_location_service: LocationService | None = None
 
 DEFAULT_QUERY = """Based on my profile and the following program information, tell me:
 1. Which programs I am likely eligible for.
@@ -98,9 +102,43 @@ def get_memory_service() -> MemoryService:
     return _memory_service
 
 
+def get_location_service() -> LocationService:
+    global _location_service
+    if _location_service is None:
+        _location_service = LocationService()
+    return _location_service
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/api/locations", response_model=list[OfficeLocation])
+async def get_nearby_locations(
+    zip_code: str,
+    location_service: Annotated[LocationService, Depends(get_location_service)],
+    program: str | None = None,
+    limit: int = 10,
+) -> list[OfficeLocation]:
+    """Nearby offices: static JSON + ZIP matching + distance sort only.
+
+    Does not call Ollama, RAG, or embeddings. If ``/api/query`` feels slow,
+    that is the LLM path; it used to block the asyncio loop (see ``to_thread`` there)
+    and stall concurrent requests including this one.
+    """
+    normalized_limit = min(max(limit, 1), 25)
+    offices = location_service.find_nearby_offices(
+        zip_code=zip_code,
+        program=program,
+        limit=normalized_limit,
+    )
+    if not offices:
+        raise HTTPException(
+            status_code=404,
+            detail="No office locations found for that ZIP code. Try a nearby NY ZIP code.",
+        )
+    return offices
 
 
 @app.post("/api/query", response_model=QueryResponse)
@@ -132,7 +170,8 @@ async def query_benefits(
     prompt = build_llm_prompt(context, memory_context, user_query, request.user_profile)
 
     try:
-        answer = llm.generate(prompt)
+        # Sync LLM call would block the event loop and stall unrelated routes (e.g. /api/locations).
+        answer = await asyncio.to_thread(llm.generate, prompt)
     except Exception as exc:  # pragma: no cover - network / provider errors
         logger.exception("LLM generation failed")
         raise HTTPException(
