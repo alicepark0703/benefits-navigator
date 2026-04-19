@@ -32,7 +32,7 @@ export default function HomePage() {
 
             <button
               style={styles.secondaryButton}
-              onClick={() => navigate("/locations")}
+              onClick={() => navigate("/home/locations")}
             >
               Find Closest Office
             </button>

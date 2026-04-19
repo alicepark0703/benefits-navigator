@@ -89,7 +89,7 @@ export default function ResultsPage() {
             }}>
               No results found. Please{" "}
               <span
-                onClick={() => navigate("/eligibility")}
+                onClick={() => navigate("/home/eligibility")}
                 style={{ color: COLORS.accent, cursor: "pointer", textDecoration: "underline" }}
               >
                 complete the eligibility form
@@ -161,7 +161,7 @@ export default function ResultsPage() {
                 display: "flex", gap: 12, flexWrap: "wrap",
               }}>
                 <button
-                  onClick={() => navigate("/agent")}
+                  onClick={() => navigate("/home/agent")}
                   style={{
                     padding: "11px 24px", borderRadius: 8, border: "none",
                     background: COLORS.accent, color: COLORS.white,
@@ -171,7 +171,7 @@ export default function ResultsPage() {
                   Ask a follow-up question
                 </button>
                 <button
-                  onClick={() => navigate("/eligibility")}
+                  onClick={() => navigate("/home/eligibility")}
                   style={{
                     padding: "11px 24px", borderRadius: 8,
                     border: `1px solid ${COLORS.border}`,

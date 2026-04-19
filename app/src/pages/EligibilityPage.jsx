@@ -39,7 +39,7 @@ export default function EligibilityPage() {
       localStorage.setItem("eligibilityData", JSON.stringify(data));
       localStorage.setItem("eligibilityResults", JSON.stringify(result));
 
-      navigate("/results", {
+      navigate("/home/eligibility-results", {
         state: {
           data: result,
         },

@@ -13,7 +13,7 @@ export default function ResultsHub() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/eligibility");
+        navigate("/home/eligibility");
       },
     },
     {
@@ -22,7 +22,7 @@ export default function ResultsHub() {
       active: true,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/eligibility-results");
+        navigate("/home/eligibility-results");
       },
     },
     {
@@ -31,7 +31,7 @@ export default function ResultsHub() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/agent");
+        navigate("/home/agent");
       },
     },
     {
@@ -40,7 +40,7 @@ export default function ResultsHub() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/locations");
+        navigate("/home/locations");
       },
     },
   ];
@@ -95,7 +95,7 @@ export default function ResultsHub() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div
-              onClick={() => navigate("/eligibility-results")}
+              onClick={() => navigate("/home/eligibility-results")}
               style={cardStyle}
             >
               <h3
@@ -113,7 +113,7 @@ export default function ResultsHub() {
               </p>
             </div>
 
-            <div onClick={() => navigate("/agent")} style={cardStyle}>
+            <div onClick={() => navigate("/home/agent")} style={cardStyle}>
               <h3
                 style={{
                   fontSize: 17,
@@ -129,7 +129,7 @@ export default function ResultsHub() {
               </p>
             </div>
 
-            <div onClick={() => navigate("/locations")} style={cardStyle}>
+            <div onClick={() => navigate("/home/locations")} style={cardStyle}>
               <h3
                 style={{
                   fontSize: 17,
