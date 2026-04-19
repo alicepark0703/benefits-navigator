@@ -73,7 +73,7 @@ export default function EligibilityPage() {
       active: false,
       onClick: () => {
         setSidebarOpen(false);
-        navigate("/results");
+        navigate("/eligibility-results");
       },
     },
     {

@@ -28,7 +28,7 @@ export default function AgentPage() {
       icon: "",
       label: "Results",
       active: false,
-      onClick: () => { setSidebarOpen(false); navigate("/results"); },
+      onClick: () => { setSidebarOpen(false); navigate("/eligibility-results"); },
     },
     {
       icon: "",
