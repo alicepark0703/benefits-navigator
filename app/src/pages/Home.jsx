@@ -311,7 +311,7 @@ const styles = {
     height: 58,
     borderRadius: 14,
     border: "none",
-    background: "#7d4e57",
+    background: "#5b5271",
     color: "#fff",
     fontSize: 20,
     fontWeight: 600,
@@ -352,7 +352,7 @@ const styles = {
   inlineLink: {
     border: "none",
     background: "none",
-    color: "#7d4e57",
+    color: "#5b5271",
     fontWeight: 700,
     cursor: "pointer",
     padding: 0,
@@ -363,7 +363,7 @@ const styles = {
     padding: "12px 14px",
     borderRadius: 10,
     background: "#fdf0f2",
-    color: "#7d4e57",
+    color: "#5b5271",
     fontSize: 14,
   },
 };

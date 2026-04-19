@@ -4,7 +4,7 @@ const COLORS = {
   ink: "#11151c",
   panel: "#212d40",
   muted: "#364156",
-  accent: "#7d4e57",
+  accent: "#5b5271",
   border: "#d6d9df",
   soft: "#f4f4f6",
   white: "#ffffff",

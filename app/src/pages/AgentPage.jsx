@@ -284,7 +284,7 @@ const styles = {
   logoButton: {
     position: "fixed", top: 24, left: 24, zIndex: 30,
     width: 56, height: 56, borderRadius: 16, border: "none",
-    background: "#7d4e57", color: "#fff", fontSize: 22,
+    background: "#5b5271", color: "#fff", fontSize: 22,
     cursor: "pointer", boxShadow: "0 8px 20px rgba(17, 21, 28, 0.18)",
   },
   dot1: { animation: "bounce 1.2s infinite", display: "inline-block" },

@@ -193,7 +193,7 @@ const styles = {
 
   loadingDot: {
     fontSize: 28,
-    color: "#7d4e57",
+    color: "#5b5271",
     display: "inline-block",
     animation: "loadingWave 1s infinite ease-in-out",
   },
@@ -207,7 +207,7 @@ const styles = {
     height: 56,
     borderRadius: 16,
     border: "none",
-    background: "#7d4e57",
+    background: "#5b5271",
     color: "#fff",
     fontSize: 22,
     cursor: "pointer",

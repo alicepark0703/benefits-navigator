@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 export default function HomePage() {
+    const navigate = useNavigate();
   return (
     <div style={styles.page}>
       <section style={styles.heroSection}>
@@ -105,7 +107,12 @@ export default function HomePage() {
           way.
         </p>
         <div style={styles.centeredButton}>
-          <button style={styles.primaryButton}>Ask the Assistant</button>
+            <button
+                style={styles.primaryButton}
+                onClick={() => navigate("/agent")}
+            >
+                Ask the Assistant
+            </button>
         </div>
       </section>
 
@@ -148,8 +155,8 @@ export default function HomePage() {
 const styles = {
   page: {
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "#11151c",
-    color: "#f3f4f6",
+    backgroundColor: "#f7f9fc",
+    color: "#11151c",
     minHeight: "100vh",
   },
 
@@ -158,9 +165,9 @@ const styles = {
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "64px 48px",
+    padding: "72px 48px",
     gap: "32px",
-    backgroundColor: "#11151c",
+    background: "linear-gradient(180deg, #eef4fb 0%, #f7f9fc 100%)",
   },
 
   heroText: {
@@ -172,7 +179,7 @@ const styles = {
     fontSize: "14px",
     fontWeight: "700",
     letterSpacing: "1.5px",
-    color: "#7d4e57",
+    color: "#364156",
     marginBottom: "12px",
   },
 
@@ -180,19 +187,20 @@ const styles = {
     fontSize: "52px",
     fontWeight: "700",
     margin: "0 0 16px 0",
+    color: "#11151c",
   },
 
   tagline: {
     fontSize: "22px",
     fontWeight: "500",
     marginBottom: "16px",
-    color: "#d1d5db",
+    color: "#364156",
   },
 
   description: {
     fontSize: "17px",
     lineHeight: "1.7",
-    color: "#9ca3af",
+    color: "#4b5563",
     marginBottom: "24px",
   },
 
@@ -202,22 +210,31 @@ const styles = {
     flexWrap: "wrap",
   },
 
+  buttonRowCentered: {
+    display: "flex",
+    gap: "14px",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginTop: "24px",
+  },
+
   primaryButton: {
     padding: "14px 24px",
-    backgroundColor: "#7d4e57",
+    backgroundColor: "#5b5271",
     color: "#ffffff",
     border: "none",
     borderRadius: "10px",
     fontSize: "16px",
     fontWeight: "600",
     cursor: "pointer",
+    boxShadow: "0 8px 20px rgba(33, 45, 64, 0.18)",
   },
 
   secondaryButton: {
     padding: "14px 24px",
     backgroundColor: "transparent",
-    color: "#7d4e57",
-    border: "1px solid #7d4e57",
+    color: "#364156",
+    border: "1px solid #5b5271",
     borderRadius: "10px",
     fontSize: "16px",
     fontWeight: "600",
@@ -231,7 +248,7 @@ const styles = {
 
   placeholderImageLarge: {
     height: "280px",
-    backgroundColor: "#212d40",
+    backgroundColor: "#ffffff",
     border: "2px dashed #364156",
     borderRadius: "16px",
     display: "flex",
@@ -239,9 +256,10 @@ const styles = {
     justifyContent: "center",
     fontSize: "18px",
     fontWeight: "600",
-    color: "#9ca3af",
+    color: "#6b7280",
     textAlign: "center",
     padding: "20px",
+    boxShadow: "0 10px 24px rgba(17, 21, 28, 0.06)",
   },
 
   placeholderCaption: {
@@ -252,12 +270,12 @@ const styles = {
 
   section: {
     padding: "64px 48px",
-    backgroundColor: "#11151c",
+    backgroundColor: "#f7f9fc",
   },
 
   sectionAlt: {
     padding: "64px 48px",
-    backgroundColor: "#212d40",
+    backgroundColor: "#eef4fb",
   },
 
   sectionTitle: {
@@ -265,11 +283,12 @@ const styles = {
     fontWeight: "700",
     textAlign: "center",
     marginBottom: "16px",
+    color: "#11151c",
   },
 
   sectionDescription: {
     fontSize: "17px",
-    color: "#9ca3af",
+    color: "#364156",
     textAlign: "center",
     maxWidth: "760px",
     margin: "0 auto 36px auto",
@@ -284,40 +303,46 @@ const styles = {
   },
 
   infoCard: {
-    backgroundColor: "#364156",
+    backgroundColor: "#ffffff",
+    border: "1px solid #d9e2ec",
+    borderTop: "4px solid #5b5271",
     borderRadius: "16px",
     padding: "28px",
+    boxShadow: "0 8px 20px rgba(17, 21, 28, 0.05)",
   },
 
   programCard: {
-    backgroundColor: "#364156",
+    backgroundColor: "#ffffff",
+    border: "1px solid #d9e2ec",
     borderRadius: "16px",
     padding: "24px",
     textAlign: "center",
+    boxShadow: "0 8px 20px rgba(17, 21, 28, 0.05)",
   },
 
   cardTitle: {
     fontSize: "20px",
     fontWeight: "700",
     marginBottom: "12px",
+    color: "#212d40",
   },
 
   cardText: {
     fontSize: "16px",
-    color: "#d1d5db",
+    color: "#4b5563",
     lineHeight: "1.6",
   },
 
   placeholderImageSmall: {
     height: "140px",
-    backgroundColor: "#212d40",
-    border: "2px dashed #7d4e57",
+    backgroundColor: "#eef4fb",
+    border: "2px dashed #364156",
     borderRadius: "12px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: "18px",
-    color: "#9ca3af",
+    color: "#6b7280",
     fontWeight: "600",
   },
 
@@ -329,7 +354,7 @@ const styles = {
 
   descriptionCentered: {
     fontSize: "17px",
-    color: "#9ca3af",
+    color: "#364156",
     textAlign: "center",
     maxWidth: "820px",
     margin: "0 auto 18px auto",
@@ -344,17 +369,20 @@ const styles = {
   },
 
   featureCard: {
-    backgroundColor: "#364156",
+    backgroundColor: "#d9e2ec",
+    color: "#364156",
     borderRadius: "14px",
     padding: "20px",
     textAlign: "center",
     fontWeight: "600",
+    boxShadow: "0 8px 20px rgba(33, 45, 64, 0.14)",
   },
 
   ctaSection: {
     padding: "72px 48px",
     textAlign: "center",
-    backgroundColor: "#212d40",
+    background:  "#d9e2ec",
+    color: "#ffffff",
   },
 
   ctaTitle: {
