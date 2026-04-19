@@ -112,12 +112,29 @@ def build_context_from_documents(documents: list[Document]) -> str:
     return "\n\n".join(parts).strip()
 
 
-def build_llm_prompt(retrieved_context: str, user_query: str, user_profile: UserProfile) -> str:
+def build_memory_context(memories: list[Document]) -> str:
+    parts: list[str] = []
+    for i, memory in enumerate(memories, start=1):
+        timestamp = memory.metadata.get("timestamp", "unknown-time")
+        parts.append(f"[{i}] (time: {timestamp})\n{memory.page_content.strip()}")
+    return "\n\n".join(parts).strip()
+
+
+def build_llm_prompt(
+    retrieved_context: str,
+    memory_context: str,
+    user_query: str,
+    user_profile: UserProfile,
+) -> str:
     profile_block = build_profile_summary(user_profile)
+    memory_block = memory_context or "(no relevant prior conversation context)"
     return f"""{SYSTEM_INSTRUCTIONS}
 
 Program information (retrieved excerpts):
 {retrieved_context}
+
+Relevant prior conversation memory:
+{memory_block}
 
 User profile:
 {profile_block}
