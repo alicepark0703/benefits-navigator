@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function Sidebar({
   mode = "login",
   isOpen = true,
@@ -33,9 +34,9 @@ export default function Sidebar({
         }}
       >
         <div>
-          <div style={styles.logoBox}>
-            <div style={styles.logoInner}> ❤ </div>
-          </div>
+          <Link to="*" style={styles.logoBox}>
+            <div style={styles.logoInner}>❤</div>
+          </Link>
 
           <div style={styles.brand}>{title}</div>
           <div style={styles.subBrand}>{subtitle}</div>
