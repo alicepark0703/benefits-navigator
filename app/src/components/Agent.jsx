@@ -13,6 +13,25 @@ export const COLORS = {
 
 export default function Agent({ children, onResult }) {
   const location = useLocation();
+
+// Coerce numeric fields saved as strings by the eligibility form
+function sanitizeProfile(data) {
+  if (!data) return {};
+  const INT_FIELDS  = ["householdSize", "numAdults", "numChildren"];
+  const FLOAT_FIELDS = ["annualIncome", "assets", "hoursPerWeek", "monthlyRent", "monthlyUtilities"];
+  const out = { ...data };
+  for (const f of INT_FIELDS) {
+    if (out[f] === "" || out[f] === undefined) { out[f] = null; continue; }
+    const n = parseInt(out[f], 10);
+    out[f] = isNaN(n) ? null : n;
+  }
+  for (const f of FLOAT_FIELDS) {
+    if (out[f] === "" || out[f] === undefined) { out[f] = null; continue; }
+    const n = parseFloat(out[f]);
+    out[f] = isNaN(n) ? null : n;
+  }
+  return out;
+}
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
@@ -47,7 +66,7 @@ export default function Agent({ children, onResult }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query: trimmed,
-          user_profile: initialData,
+          user_profile: sanitizeProfile(initialData),
           user_id: user?.id ?? null,
         }),
       });
@@ -55,7 +74,12 @@ export default function Agent({ children, onResult }) {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.detail || "Failed to find information.");
+        let detail = result.detail;
+        if (Array.isArray(detail)) {
+          // FastAPI validation errors: [{loc, msg, type}, ...]
+          detail = detail.map((e) => e.msg || JSON.stringify(e)).join("; ");
+        }
+        throw new Error(detail || "Failed to find information.");
       }
 
       localStorage.setItem("agentResults", JSON.stringify(result));
